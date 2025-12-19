@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media Downloader</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6A5EFF;
+            --primary-dark: #4A3EFF;
+            --secondary-color: #1A1B2A;
+            --background-color: #0A0B1A;
+            --card-bg: rgba(30, 30, 45, 0.85);
+            --text-color: #F0F0FF;
+            --muted-color: #B0B8FF;
+            --accent-color: #FF7070;
+            --shadow-color: rgba(106, 94, 255, 0.4);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --success-color: #4AFFB0;
+            --error-color: #FF5050;
+            --inner-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5);
+            --gradient-accent: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            --transition-ease: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: var(--background-color);
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 clamp(0.5rem, 1.5vw, 0.75rem);
+        }
+
+        .d-none { display: none !important; }
+        .active { display: block !important; }
+
+        .btn-dark, .btn-primary, .btn-link {
+            padding: clamp(0.25rem, 0.8vw, 0.35rem) clamp(0.5rem, 1vw, 0.7rem);
+            font-size: clamp(0.65rem, 1.3vw, 0.75rem);
+            border-radius: 6px;
+            background: var(--primary-color);
+            color: var(--text-color);
+            text-decoration: none;
+            transition: var(--transition-ease);
+            box-shadow: 0 2px 6px var(--shadow-color), var(--inner-shadow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-dark:hover, .btn-primary:hover, .btn-link:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px var(--shadow-color);
+        }
+
+        .main-content {
+            margin-top: clamp(1rem, 3vw, 1.5rem);
+            padding: clamp(0.8rem, 1.5vw, 1rem);
+        }
+
+        .dashboard-section {
+            display: grid;
+            gap: clamp(0.6rem, 1.5vw, 0.8rem);
+            grid-template-columns: repeat(auto-fit, minmax(clamp(250px, 40vw, 280px), 1fr));
+        }
+
+        .dashboard-card {
+            background: var(--card-bg);
+            padding: clamp(0.6rem, 1.5vw, 0.8rem);
+            border-radius: 8px;
+            transition: var(--transition-ease);
+            box-shadow: var(--inner-shadow), 0 2px 6px var(--shadow-color);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border-color);
+            animation: fadeInUp 0.4s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .dashboard-card:nth-child(1) { animation-delay: 0.1s; }
+        .dashboard-card:nth-child(2) { animation-delay: 0.15s; }
+        .dashboard-card:nth-child(3) { animation-delay: 0.2s; }
+
+        .dashboard-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px var(--shadow-color);
+        }
+
+        .dashboard-card p {
+            font-size: clamp(0.65rem, 1.3vw, 0.75rem);
+            color: var(--muted-color);
+        }
+
+        .title-card {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: clamp(0.8rem, 2vw, 1rem);
+        }
+
+        .title {
+            font-size: clamp(1.3rem, 3vw, 1.6rem);
+            font-weight: 600;
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .version-badge {
+            background: var(--glass-bg);
+            padding: clamp(0.15rem, 0.8vw, 0.25rem) clamp(0.4rem, 1vw, 0.5rem);
+            border-radius: 8px;
+            font-size: clamp(0.55rem, 1vw, 0.65rem);
+            color: var(--muted-color);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--inner-shadow);
+        }
+
+        .param-input {
+            background: var(--glass-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: clamp(0.25rem, 0.8vw, 0.35rem);
+            font-size: clamp(0.6rem, 1.2vw, 0.7rem);
+            transition: var(--transition-ease);
+            box-shadow: var(--inner-shadow);
+            width: 100%;
+        }
+
+        .param-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 5px var(--shadow-color);
+            outline: none;
+        }
+
+        .response-content {
+            background: var(--glass-bg);
+            border-radius: 6px;
+            padding: 1rem;
+            color: var(--text-color);
+            font-size: clamp(0.55rem, 1vw, 0.65rem);
+            transition: var(--transition-ease);
+            box-shadow: var(--inner-shadow);
+            width: 100%;
+        }
+
+        .response-content.success {
+            border-color: var(--success-color);
+        }
+
+        .response-content.error {
+            border-color: var(--error-color);
+        }
+
+        .error-message {
+            color: var(--error-color);
+            text-align: center;
+            padding: 0.5rem;
+            background: var(--card-bg);
+            border-radius: 6px;
+            font-size: clamp(0.6rem, 1.2vw, 0.7rem);
+            box-shadow: var(--inner-shadow);
+        }
+
+        /* Additional styles for downloader */
+        .input-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .download-section {
+            background: var(--card-bg);
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: var(--inner-shadow), 0 2px 6px var(--shadow-color);
+            width: 100%;
+        }
+
+        .description {
+            background: var(--glass-bg);
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            box-shadow: var(--inner-shadow);
+        }
+
+        .description h3 {
+            font-size: clamp(0.85rem, 1.8vw, 0.95rem);
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .description p {
+            font-size: clamp(0.65rem, 1.3vw, 0.75rem);
+            color: var(--muted-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .description ul {
+            list-style: none;
+            padding: 0;
+            font-size: clamp(0.65rem, 1.3vw, 0.75rem);
+            color: var(--muted-color);
+        }
+
+        .description ul li::before {
+            content: '\f058';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            margin-right: 0.3rem;
+            color: var(--success-color);
+        }
+
+        .thumbnail {
+            max-width: 100%;
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .metadata {
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            background: var(--glass-bg);
+            border-radius: 6px;
+            box-shadow: var(--inner-shadow);
+            display: grid;
+            gap: 0.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+
+        .metadata p {
+            margin: 0;
+            font-size: clamp(0.65rem, 1.3vw, 0.75rem);
+            color: var(--muted-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .metadata img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+
+        .download-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 0.5rem;
+            background: var(--glass-bg);
+            border-radius: 6px;
+            box-shadow: var(--inner-shadow);
+        }
+
+        .download-buttons a {
+            flex: 1 1 auto;
+            min-width: 120px;
+            text-align: center;
+        }
+
+        @media (max-width: 1400px) {
+            .container { max-width: 100%; padding: 0 0.8rem; }
+        }
+
+        @media (max-width: 1200px) {
+            .dashboard-section { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+            .main-content { margin-top: 1rem; }
+        }
+
+        @media (max-width: 992px) {
+            .main-content { padding: 0.6rem; }
+            .dashboard-section { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .main-content { margin-top: 0.8rem; padding: 0.5rem; }
+            .title { font-size: 1.3rem; }
+            .dashboard-card { padding: 0.5rem; }
+        }
+
+        @media (max-width: 576px) {
+            .main-content { margin-top: 0.5rem; }
+            .title { font-size: 1.1rem; }
+        }
+
+        @media (max-width: 400px) {
+            .container { padding: 0 0.3rem; }
+            .title { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="main-content">
+            <div class="dashboard-section">
+                <div class="title-card">
+                    <h1 class="title">Social Media Downloader</h1>
+                    <span class="version-badge">v1.0.0</span>
+                </div>
+                <div class="download-section">
+                    <div class="description">
+                        <h3>About This Downloader</h3>
+                        <p>This tool allows you to download videos and audio from your favorite platforms quickly and easily.</p>
+                        <p><strong>Supported Platforms:</strong></p>
+                        <ul>
+                            <li>TikTok (e.g., https://vt.tiktok.com/ZSS9JMUFH/)</li>
+                            <li>YouTube (e.g., https://www.youtube.com/watch?v=RzmhRy4A3uE)</li>
+                            <li>XNXX (e.g., https://www.xnxx.com/video-11kqo57e/...)</li>
+                        </ul>
+                        <p><strong>How to Use:</strong></p>
+                        <ul>
+                            <li>Copy the video URL from TikTok, YouTube, or XNXX.</li>
+                            <li>Paste the URL into the input field below.</li>
+                            <li>Click the "Get" button to fetch the media.</li>
+                            <li>Choose to download the video or audio using the provided buttons.</li>
+                        </ul>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="urlInput" class="param-input" placeholder="Enter TikTok, YouTube, or XNXX URL">
+                        <button class="btn-primary" onclick="fetchMedia()">Get</button>
+                    </div>
+                    <div id="result" class="response-content"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function fetchMedia() {
+            const urlInput = document.getElementById('urlInput').value;
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '';
+
+            if (!urlInput) {
+                resultDiv.classList.add('error');
+                resultDiv.innerHTML = '<p class="error-message">Please enter a valid URL</p>';
+                return;
+            }
+
+            // Retrieve API key from localStorage
+            const apiKey = localStorage.getItem('apiKey') || 'xyz-key_Fx3pIfGN2t'; // Fallback if not found
+            let apiUrl = '';
+            const encodedUrl = encodeURIComponent(urlInput);
+
+            // Determine platform based on URL
+            if (urlInput.includes('tiktok.com')) {
+                apiUrl = `https://xyz-rest-api.vercel.app/download/tiktok-v2?apikey=${apiKey}&url=${encodedUrl}`;
+            } else if (urlInput.includes('youtube.com') || urlInput.includes('youtu.be')) {
+                apiUrl = `https://xyz-rest-api.vercel.app/download/ytdlv2?apikey=${apiKey}&url=${encodedUrl}`;
+            } else if (urlInput.includes('xnxx.com')) {
+                apiUrl = `https://xyz-rest-api.vercel.app/download/xnxx?apikey=${apiKey}&url=${encodedUrl}`;
+            } else {
+                resultDiv.classList.add('error');
+                resultDiv.innerHTML = '<p class="error-message">Unsupported URL. Please use TikTok, YouTube, or XNXX links.</p>';
+                return;
+            }
+
+            try {
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+
+                if (!data.status) {
+                    resultDiv.classList.add('error');
+                    resultDiv.innerHTML = '<p class="error-message">Failed to fetch media data: ' + (data.message || 'Unknown error') + '</p>';
+                    return;
+                }
+
+                resultDiv.classList.remove('error');
+                resultDiv.classList.add('success');
+                let htmlContent = '';
+
+                if (urlInput.includes('tiktok.com')) {
+                    const { result } = data;
+                    htmlContent = `
+                        <img src="${result.cover || 'https://via.placeholder.com/400x300'}" class="thumbnail" alt="Thumbnail">
+                        <div class="metadata">
+                            <p><i class="fas fa-video"></i> Title: ${result.title || 'Untitled Video'}</p>
+                            <p><i class="fas fa-clock"></i> Duration: ${result.duration || 'Unknown'}s</p>
+                            <p><i class="fas fa-globe"></i> Region: ${result.region || 'Unknown'}</p>
+                            <p><i class="fas fa-user"></i> Author: ${result.author?.nickname || 'Unknown'}</p>
+                            <p><img src="${result.author?.avatar || 'https://via.placeholder.com/40'}" alt="Author Avatar"> Username: ${result.author?.unique_id || 'Unknown'}</p>
+                            <p><i class="fas fa-eye"></i> Views: ${(result.stats?.play_count || 0).toLocaleString()}</p>
+                            <p><i class="fas fa-heart"></i> Likes: ${(result.stats?.digg_count || 0).toLocaleString()}</p>
+                            <p><i class="fas fa-comment"></i> Comments: ${(result.stats?.comment_count || 0).toLocaleString()}</p>
+                            <p><i class="fas fa-share"></i> Shares: ${(result.stats?.share_count || 0).toLocaleString()}</p>
+                        </div>
+                        <div class="download-buttons">
+                            <a href="${result.download?.nowm || '#'}" class="btn-primary" download><i class="fas fa-download"></i> Download Video (No WM)</a>
+                            <a href="${result.download?.wm || '#'}" class="btn-primary" download><i class="fas fa-download"></i> Download Video (WM)</a>
+                            <a href="${result.download?.music || '#'}" class="btn-primary" download><i class="fas fa-music"></i> Download Audio</a>
+                        </div>
+                    `;
+                } else if (urlInput.includes('youtube.com') || urlInput.includes('youtu.be')) {
+                    const { video, downloads } = data;
+                    htmlContent = `
+                        <img src="${video.thumbnail}" class="thumbnail" alt="Thumbnail">
+                        <div class="metadata">
+                            <p><i class="fas fa-video"></i> Title: ${video.title || 'Untitled Video'}</p>
+                            <p><i class="fas fa-clock"></i> Duration: ${video.duration || 'Unknown'}</p>
+                            <p><i class="fas fa-user"></i> Channel: ${video.channelTitle || 'Unknown'}</p>
+                            <p><i class="fas fa-calendar"></i> Published: ${new Date(video.publishedAt).toLocaleDateString()}</p>
+                            <p><i class="fas fa-eye"></i> Views: ${(video.viewCount || 0).toLocaleString()}</p>
+                            <p><i class="fas fa-thumbs-up"></i> Likes: ${(video.likeCount || 0).toLocaleString()}</p>
+                            <p><i class="fas fa-comment"></i> Comments: ${(video.commentCount || 0).toLocaleString()}</p>
+                        </div>
+                        <div class="download-buttons">
+                            <a href="${downloads.mp4}" class="btn-primary" download><i class="fas fa-download"></i> Download Video</a>
+                            <a href="${downloads.mp3}" class="btn-primary" download><i class="fas fa-music"></i> Download Audio</a>
+                        </div>
+                    `;
+                } else if (urlInput.includes('xnxx.com')) {
+                    const { result } = data;
+                    htmlContent = `
+                        <img src="${result.image}" class="thumbnail" alt="Thumbnail">
+                        <div class="metadata">
+                            <p><i class="fas fa-video"></i> Title: ${result.title || 'Untitled Video'}</p>
+                            <p><i class="fas fa-clock"></i> Duration: ${result.duration || 'Unknown'}s</p>
+                            <p><i class="fas fa-info-circle"></i> Info: ${result.info || 'No info available'}</p>
+                        </div>
+                        <div class="download-buttons">
+                            <a href="${result.files.low}" class="btn-primary" download><i class="fas fa-download"></i> Download Low</a>
+                            <a href="${result.files.high}" class="btn-primary" download><i class="fas fa-download"></i> Download High</a>
+                            <a href="${result.files.HLS}" class="btn-primary" download><i class="fas fa-download"></i> Download HLS</a>
+                        </div>
+                    `;
+                }
+
+                resultDiv.innerHTML = htmlContent;
+            } catch (error) {
+                resultDiv.classList.add('error');
+                resultDiv.innerHTML = '<p class="error-message">Error fetching data: ' + error.message + '</p>';
+            }
+        }
+    </script>
+</body>
+</html>
