@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login to Xyz</title>
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <!-- Google Fonts for Montserrat -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="../src/icon.png" type="image/png">
+  <!-- Link to your style.css -->
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      background: var(--background-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      font-family: 'Montserrat', sans-serif;
+    }
+    .login-container {
+      background: var(--card-bg);
+      padding: 2.5rem;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+      transform: perspective(1000px) translateZ(0);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      z-index: 10;
+    }
+    .login-container:hover {
+      transform: perspective(1000px) translateZ(8px);
+      box-shadow: 0 12px 30px var(--shadow-color);
+    }
+    .login-container h2 {
+      color: var(--text-color);
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .icon-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .google-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      font-size: 1.5rem;
+      background: var(--primary-color);
+      color: var(--text-color);
+      border: none;
+      border-radius: 50%;
+      box-shadow: 0 4px 12px var(--shadow-color);
+      transform: perspective(1000px) translateZ(0);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    .google-btn:hover {
+      background: var(--primary-dark);
+      transform: perspective(1000px) translateZ(8px);
+      box-shadow: 0 6px 15px var(--shadow-color);
+    }
+    .login-btn, .register-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      background: var(--primary-color);
+      color: var(--text-color);
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px var(--shadow-color);
+      transform: perspective(1000px) translateZ(0);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      width: 100%;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .login-btn:hover, .register-btn:hover {
+      background: var(--primary-dark);
+      transform: perspective(1000px) translateZ(8px);
+      box-shadow: 0 6px 15px var(--shadow-color);
+    }
+    .login-btn i, .register-btn i {
+      font-size: 1.2rem;
+    }
+    .toggle-link {
+      color: var(--muted-color);
+      font-size: 0.9rem;
+      cursor: pointer;
+      text-decoration: underline;
+      margin: 0.5rem 0;
+      display: inline-block;
+      transition: color 0.3s ease;
+    }
+    .toggle-link:hover {
+      color: var(--primary-color);
+    }
+    .email-form, .google-section {
+      display: none;
+    }
+    .email-form.active, .google-section.active {
+      display: block;
+    }
+    .form-control {
+      background: var(--secondary-color);
+      color: var(--text-color);
+      border: 2px solid transparent;
+      border-radius: 10px;
+      padding: 0.6rem;
+      font-size: 0.9rem;
+      width: 100%;
+      margin-bottom: 1rem;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .form-control:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 8px var(--shadow-color);
+      outline: none;
+    }
+    .password-wrapper {
+      position: relative;
+    }
+    .password-toggle {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted-color);
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .password-toggle:hover {
+      color: var(--primary-color);
+    }
+    .error-message, .success-message {
+      font-size: 0.85rem;
+      margin: 0.5rem 0;
+      display: none;
+      text-align: left;
+    }
+    .error-message {
+      color: var(--accent-color);
+    }
+    .success-message {
+      color: #4CAF50;
+    }
+    #particles-js {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: var(--background-color);
+    }
+    .background-effect {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, var(--primary-color), var(--accent-color), var(--secondary-color));
+      opacity: 0.1;
+      z-index: -2;
+      animation: gradient 15s ease infinite;
+    }
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--background-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    .loading-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .spinner {
+      border: 4px solid var(--muted-color);
+      border-top: 4px solid var(--primary-color);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Background Gradient Effect -->
+  <div class="background-effect"></div>
+  <!-- Particle Container -->
+  <div id="particles-js"></div>
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="spinner"></div>
+  </div>
+  <!-- Login Container -->
+  <div class="login-container">
+    <h2>Welcome to Xyz</h2>
+    <!-- Registration Form (Default) -->
+    <form class="email-form active" id="registerForm">
+      <input type="email" class="form-control" id="registerEmailInput" placeholder="Email" required>
+      <div class="password-wrapper">
+        <input type="password" class="form-control" id="registerPasswordInput" placeholder="Password" required>
+        <i class="fas fa-eye password-toggle" id="toggleRegisterPassword"></i>
+      </div>
+      <div class="password-wrapper">
+        <input type="password" class="form-control" id="confirmPasswordInput" placeholder="Confirm Password" required>
+        <i class="fas fa-eye password-toggle" id="toggleConfirmPassword"></i>
+      </div>
+      <p class="error-message" id="registerErrorMessage"></p>
+      <p class="success-message" id="registerSuccessMessage"></p>
+      <button type="submit" class="register-btn" id="registerBtn">
+        <i class="fas fa-user-plus"></i> Create Account
+      </button>
+      <span class="toggle-link" id="toggleLoginFromRegister">Already have an account? Login</span>
+      <span class="toggle-link" id="toggleGoogleFromRegister">Sign in with Google</span>
+    </form>
+    <!-- Email/Password Login Form -->
+    <form class="email-form" id="emailForm">
+      <input type="email" class="form-control" id="emailInput" placeholder="Email" required>
+      <div class="password-wrapper">
+        <input type="password" class="form-control" id="passwordInput" placeholder="Password" required>
+        <i class="fas fa-eye password-toggle" id="togglePassword"></i>
+      </div>
+      <p class="error-message" id="loginErrorMessage"></p>
+      <button type="submit" class="login-btn" id="emailLogin">
+        <i class="fas fa-sign-in-alt"></i> Login
+      </button>
+      <a href="reset_password.html" class="toggle-link">Forgot Password?</a>
+      <span class="toggle-link" id="toggleRegisterFromLogin">Create New Account</span>
+      <span class="toggle-link" id="toggleGoogleFromLogin">Sign in with Google</span>
+    </form>
+    <!-- Google Sign-In Section -->
+    <div class="google-section" id="googleSection">
+      <div class="icon-buttons">
+        <button class="google-btn" id="googleLogin" title="Sign in with Google">
+          <i class="fab fa-google"></i>
+        </button>
+      </div>
+      <span class="toggle-link" id="toggleEmailFromGoogle">Use Email/Password Instead</span>
+    </div>
+  </div>
+
+  <!-- Particles.js Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-analytics.js";
+    import { getAuth, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+
+    // Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyCiv11-1PLlpzrz1Yhye_f25EDGKGI19mM",
+      authDomain: "xyz-login-page.firebaseapp.com",
+      projectId: "xyz-login-page",
+      storageBucket: "xyz-login-page.appspot.com",
+      messagingSenderId: "949338499882",
+      appId: "1:949338499882:web:95b5ec569c745d3c358c53",
+      measurementId: "G-G99FQDK8N7"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+
+    // DOM Elements
+    const googleLoginBtn = document.getElementById("googleLogin");
+    const emailForm = document.getElementById("emailForm");
+    const registerForm = document.getElementById("registerForm");
+    const googleSection = document.getElementById("googleSection");
+    const toggleLoginFromRegister = document.getElementById("toggleLoginFromRegister");
+    const toggleRegisterFromLogin = document.getElementById("toggleRegisterFromLogin");
+    const toggleGoogleFromRegister = document.getElementById("toggleGoogleFromRegister");
+    const toggleGoogleFromLogin = document.getElementById("toggleGoogleFromLogin");
+    const toggleEmailFromGoogle = document.getElementById("toggleEmailFromGoogle");
+    const emailInput = document.getElementById("emailInput");
+    const passwordInput = document.getElementById("passwordInput");
+    const togglePassword = document.getElementById("togglePassword");
+    const registerEmailInput = document.getElementById("registerEmailInput");
+    const registerPasswordInput = document.getElementById("registerPasswordInput");
+    const confirmPasswordInput = document.getElementById("confirmPasswordInput");
+    const toggleRegisterPassword = document.getElementById("toggleRegisterPassword");
+    const toggleConfirmPassword = document.getElementById("toggleConfirmPassword");
+    const loginErrorMessage = document.getElementById("loginErrorMessage");
+    const registerErrorMessage = document.getElementById("registerErrorMessage");
+    const registerSuccessMessage = document.getElementById("registerSuccessMessage");
+    const loadingOverlay = document.getElementById("loadingOverlay");
+
+    // Password visibility toggle
+    togglePassword.addEventListener("click", () => {
+      const type = passwordInput.type === "password" ? "text" : "password";
+      passwordInput.type = type;
+      togglePassword.classList.toggle("fa-eye");
+      togglePassword.classList.toggle("fa-eye-slash");
+    });
+    toggleRegisterPassword.addEventListener("click", () => {
+      const type = registerPasswordInput.type === "password" ? "text" : "password";
+      registerPasswordInput.type = type;
+      toggleRegisterPassword.classList.toggle("fa-eye");
+      toggleRegisterPassword.classList.toggle("fa-eye-slash");
+    });
+    toggleConfirmPassword.addEventListener("click", () => {
+      const type = confirmPasswordInput.type === "password" ? "text" : "password";
+      confirmPasswordInput.type = type;
+      toggleConfirmPassword.classList.toggle("fa-eye");
+      toggleConfirmPassword.classList.toggle("fa-eye-slash");
+    });
+
+    // Toggle between forms
+    function showForm(formToShow) {
+      [emailForm, registerForm, googleSection].forEach(section => section.classList.remove("active"));
+      formToShow.classList.add("active");
+      resetMessages();
+    }
+
+    toggleLoginFromRegister.addEventListener("click", () => showForm(emailForm));
+    toggleRegisterFromLogin.addEventListener("click", () => showForm(registerForm));
+    toggleGoogleFromRegister.addEventListener("click", () => showForm(googleSection));
+    toggleGoogleFromLogin.addEventListener("click", () => showForm(googleSection));
+    toggleEmailFromGoogle.addEventListener("click", () => showForm(emailForm));
+
+    // Google Login
+    googleLoginBtn.addEventListener("click", async () => {
+      loadingOverlay.classList.add("active");
+      try {
+        const result = await signInWithPopup(auth, provider);
+        loadingOverlay.classList.remove("active");
+        alert(`Login sukses!\n${result.user.displayName || result.user.email}`);
+        window.location.href = "index.html";
+      } catch (error) {
+        loadingOverlay.classList.remove("active");
+        console.error("Google Login error:", error);
+        alert(`Login gagal: ${getFriendlyErrorMessage(error.code)}`);
+      }
+    });
+
+    // Email/Password Login
+    emailForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+
+      if (!validateEmail(email)) {
+        loginErrorMessage.style.display = "block";
+        loginErrorMessage.textContent = "Invalid email format.";
+        return;
+      }
+      if (password.length < 6) {
+        loginErrorMessage.style.display = "block";
+        loginErrorMessage.textContent = "Password must be at least 6 characters.";
+        return;
+      }
+
+      loadingOverlay.classList.add("active");
+      resetMessages();
+
+      try {
+        const result = await signInWithEmailAndPassword(auth, email, password);
+        loadingOverlay.classList.remove("active");
+        alert(`Login sukses!\n${result.user.email}`);
+        window.location.href = "index.html";
+      } catch (error) {
+        loadingOverlay.classList.remove("active");
+        loginErrorMessage.style.display = "block";
+        loginErrorMessage.textContent = getFriendlyErrorMessage(error.code);
+        console.error("Email Login error:", error);
+      }
+    });
+
+    // Email/Password Registration
+    registerForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = registerEmailInput.value.trim();
+      const password = registerPasswordInput.value;
+      const confirmPassword = confirmPasswordInput.value;
+
+      if (!validateEmail(email)) {
+        registerErrorMessage.style.display = "block";
+        registerErrorMessage.textContent = "Invalid email format.";
+        return;
+      }
+      if (password.length < 6) {
+        registerErrorMessage.style.display = "block";
+        registerErrorMessage.textContent = "Password must be at least 6 characters.";
+        return;
+      }
+      if (password !== confirmPassword) {
+        registerErrorMessage.style.display = "block";
+        registerErrorMessage.textContent = "Passwords do not match.";
+        return;
+      }
+
+      loadingOverlay.classList.add("active");
+      resetMessages();
+
+      try {
+        const result = await createUserWithEmailAndPassword(auth, email, password);
+        loadingOverlay.classList.remove("active");
+        registerSuccessMessage.style.display = "block";
+        registerSuccessMessage.textContent = "Account created successfully! Please log in.";
+        showForm(emailForm);
+        registerForm.reset();
+      } catch (error) {
+        loadingOverlay.classList.remove("active");
+        registerErrorMessage.style.display = "block";
+        registerErrorMessage.textContent = getFriendlyErrorMessage(error.code);
+        console.error("Registration error:", error);
+      }
+    });
+
+    // Email validation
+    function validateEmail(email) {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(email);
+    }
+
+    // Friendly error messages
+    function getFriendlyErrorMessage(errorCode) {
+      switch (errorCode) {
+        case "auth/invalid-email": return "Invalid email format.";
+        case "auth/user-not-found": return "No user found with this email.";
+        case "auth/wrong-password": return "Incorrect password.";
+        case "auth/too-many-requests": return "Too many attempts. Please try again later.";
+        case "auth/email-already-in-use": return "Email is already registered.";
+        case "auth/weak-password": return "Password is too weak. Use at least 6 characters.";
+        case "auth/network-request-failed": return "Network error. Please check your connection.";
+        default: return `An error occurred: ${errorCode}. Please try again.`;
+      }
+    }
+
+    // Reset messages
+    function resetMessages() {
+      [loginErrorMessage, registerErrorMessage, registerSuccessMessage].forEach(msg => {
+        msg.style.display = "none";
+        msg.textContent = "";
+      });
+    }
+
+    // Particles.js Configuration
+    particlesJS("particles-js", {
+      particles: {
+        number: { value: 80, density: { enable: true, value_area: 800 } },
+        color: { value: ["#6C63FF", "#FF6B6B", "#FFFFFF"] },
+        shape: { type: "circle", stroke: { width: 0, color: "#000000" } },
+        opacity: { value: 0.7, random: true, anim: { enable: true, speed: 1, opacity_min: 0.3, sync: false } },
+        size: { value: 3, random: true, anim: { enable: true, speed: 2, size_min: 0.5, sync: false } },
+        line_linked: { enable: true, distance: 150, color: "#6C63FF", opacity: 0.4, width: 1 },
+        move: { enable: true, speed: 2, direction: "none", random: true, straight: false, out_mode: "out", bounce: false }
+      },
+      interactivity: {
+        detect_on: "canvas",
+        events: { onhover: { enable: true, mode: "grab" }, onclick: { enable: true, mode: "push" }, resize: true },
+        modes: { grab: { distance: 200, line_linked: { opacity: 0.6 } }, push: { particles_nb: 4 } }
+      },
+      retina_detect: true
+    });
+  </script>
+</body>
+</html>
