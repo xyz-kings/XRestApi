@@ -1,0 +1,395 @@
+{
+  "name": "Xyz-King's API",
+  "version": "v1.0.1",
+  "description": "Simple and easy to use API for WhatsApp Bot feature.",
+  "header": {
+    "status": "Active!"
+  },
+  "apiSettings": {
+    "creator": "Xyz-King's",
+    "apikey": ["XyzKings123"]
+  },
+  "favicon": "https://files.catbox.moe/kx1bfu.png",
+  "links": [
+    {
+      "name": "Source Code",
+      "url": "https://whatsapp.com/channel/0029Vb5vYnp4dTnMzzABCt0y"
+    },
+    {
+      "name": "Contact Me",
+      "url": "https://wa.me/6287718203240"
+    }
+  ],
+  "categories": [
+    {
+      "name": "AI",
+      "items": [
+        {
+          "name": "OpenAI",
+          "desc": "OpenAI chat",
+          "path": "/ai/openai?text="
+        },
+        {
+          "name": "Deepseek",
+          "desc": "Deepseek AI",
+          "path": "/ai/deepseek?text="
+        }
+      ]
+    },
+    {
+      "name": "Downloader",
+      "items": [
+        {
+          "name": "TikTok",
+          "desc": "TikTok downloader",
+          "path": "/download/tiktok?url="
+        },
+        {
+          "name": "TikTok V2",
+          "desc": "TikTok downloader V2",
+          "path": "/download/tiktok-v2?url="
+        },
+        {
+          "name": "Twitter",
+          "desc": "Twitter downloader",
+          "path": "/download/twitter?url="
+        },
+        {
+          "name": "Facebook",
+          "desc": "Facebook downloader",
+          "path": "/download/facebook?url="
+        },
+        {
+          "name": "YouTube",
+          "desc": "YouTube downloader",
+          "path": "/download/ytdl?url="
+        },
+        {
+          "name": "YouTube MP3",
+          "desc": "YouTube MP3 downloader",
+          "path": "/download/ytmp3?url="
+        },
+        {
+          "name": "YouTube MP4",
+          "desc": "YouTube MP4 downloader",
+          "path": "/download/ytmp4?url="
+        },
+        {
+          "name": "YouTube V2",
+          "desc": "YouTube V2 downloader",
+          "path": "/download/ytdlv2?url="
+        },
+        {
+          "name": "Instagram",
+          "desc": "Instagram downloader",
+          "path": "/download/instagram?url="
+        },
+        {
+          "name": "Pinterest",
+          "desc": "Pinterest downloader",
+          "path": "/download/pinterest?url="
+        },
+        {
+          "name": "SnackVideo",
+          "desc": "SnackVideo downloader",
+          "path": "/download/snackvideo?url="
+        },
+        {
+          "name": "SoundCloud",
+          "desc": "SoundCloud downloader",
+          "path": "/download/soundcloud?url="
+        },
+        {
+          "name": "TeraBox",
+          "desc": "TeraBox downloader",
+          "path": "/download/terabox?url="
+        },
+        {
+          "name": "XNXX",
+          "desc": "XNXX downloader",
+          "path": "/download/xnxx?url="
+        },
+        {
+          "name": "CapCut",
+          "desc": "CapCut downloader",
+          "path": "/download/capcut?url="
+        },
+        {
+          "name": "Google Drive",
+          "desc": "Google Drive downloader",
+          "path": "/download/gdrive?url="
+        },
+        {
+          "name": "Videy",
+          "desc": "Videy downloader",
+          "path": "/download/videy?url="
+        },
+        {
+          "name": "DoodStream",
+          "desc": "DoodStream downloader",
+          "path": "/download/doodstream?url="
+        }
+      ]
+    },
+    {
+      "name": "Berita",
+      "items": [
+        {
+          "name": "CNN",
+          "desc": "Berita Dari CNN",
+          "path": "/berita/cnn"
+        },
+        {
+          "name": "CNBC",
+          "desc": "Berita Dari CNBC Indonesia",
+          "path": "/berita/cnbc"
+        },
+         {
+          "name": "Liputan6",
+          "desc": "Berita Dari Liputan6",
+          "path": "/berita/liputan6"
+        }
+      ]
+    },
+    {
+      "name": "Random",
+      "items": [
+        {
+          "name": "Blue Archive",
+          "desc": "Random Blue Archive photo",
+          "path": "/random/ba"
+        },
+        {
+          "name": "Random Waifu",
+          "desc": "Random waifu photo",
+          "path": "/random/waifu"
+        },
+        {
+          "name": "Random NSFW",
+          "desc": "Random NSFW photo",
+          "path": "/random/nsfw"
+        },
+        {
+          "name": "Pap Ayang",
+          "desc": "Random pap ayang photo",
+          "path": "/random/papayang"
+        }
+      ]
+    },
+    {
+      "name": "Game",
+      "items": [
+        {
+          "name": "Family 100",
+          "desc": "Family 100 game",
+          "path": "/game/famili100/questions"
+        },
+        {
+          "name": "Kuis Islam",
+          "desc": "Islamic quiz game",
+          "path": "/game/kuisislam/questions"
+        },
+        {
+          "name": "Siapakah Aku",
+          "desc": "Who Am I game",
+          "path": "/game/siapakahaku/questions"
+        },
+        {
+          "name": "Susun Kata",
+          "desc": "Word arrangement game",
+          "path": "/game/susunkata/questions"
+        },
+        {
+          "name": "Tebak Bendera",
+          "desc": "Guess the flag game",
+          "path": "/game/tebakbendera/questions"
+        },
+        {
+          "name": "Tebak Gambar",
+          "desc": "Guess the picture game",
+          "path": "/game/tebakgambar/questions"
+        },
+        {
+          "name": "Tebak Kimia",
+          "desc": "Guess the chemical game",
+          "path": "/game/tebakkimia/questions"
+        },
+        {
+          "name": "Tebak Lagu",
+          "desc": "Guess the song game",
+          "path": "/game/tebaklagu/questions"
+        },
+        {
+          "name": "Tebak Lirik",
+          "desc": "Guess the lyrics game",
+          "path": "/game/tebaklirik/questions"
+        },
+        {
+          "name": "Tebak-Tebakan",
+          "desc": "Riddle game",
+          "path": "/game/tebaktebakan/questions"
+        }
+      ]
+    },
+    {
+      "name": "Tools",
+      "items": [
+        {
+          "name": "Text-to-Speech",
+          "desc": "Anime character text-to-speech",
+          "path": "/tools/text-to-speech?text="
+        },
+        {
+          "name":"Brat Maker",
+          "desc":"Text to Image",
+          "path":"/tools/brat?text="
+        },
+                {
+          "name":"Brat Anim Maker",
+          "desc":"Text to Gif",
+          "path":"/tools/bratanim?text="
+        },
+        {
+          "name": "Screenshot Web",
+          "desc": "Screenshot web URL",
+          "path": "/tools/ssweb?url="
+        },
+        {
+          "name": "Emoji to GIF",
+          "desc": "Convert emoji to GIF",
+          "path": "/tools/emojitogif?emoji="
+        },
+        {
+          "name": "Emoji Mix",
+          "desc": "Emoji mix converter",
+          "path": "/tools/emojimix?emoji1=&emoji2="
+        }
+      ]
+    },
+    {
+      "name": "Search",
+      "items": [
+        {
+          "name": "YouTube Search",
+          "desc": "Search YouTube",
+          "path": "/search/youtube?q="
+        },
+        {
+          "name": "Pinterest",
+          "desc": "Search Pinterest photos",
+          "path": "/search/pinterest?q="
+        },
+        {
+          "name": "Google Image",
+          "desc": "Search Google images",
+          "path": "/search/gimage?q="
+        },
+        {
+          "name": "Play Store",
+          "desc": "Search Play Store apps",
+          "path": "/search/playstore?q="
+        },
+        {
+          "name": "NPM Search",
+          "desc": "Search NPM Node.js packages",
+          "path": "/search/npm?q="
+        },
+        {
+          "name": "F-Droid",
+          "desc": "Search F-Droid apps",
+          "path": "/search/fdroid?q="
+        },
+        {
+          "name": "HappyMod",
+          "desc": "Search HappyMod apps",
+          "path": "/search/happymod?q="
+        },
+        {
+          "name": "TikTok",
+          "desc": "Search TikTok videos",
+          "path": "/search/tiktok?q="
+        },
+        {
+          "name": "XNXX Search",
+          "desc": "Search XNXX videos",
+          "path": "/search/xnxx?q="
+        },
+        {
+          "name": "Lyrics Search",
+          "desc": "Search music lyrics",
+          "path": "/search/lyrics?q="
+        },
+        {
+          "name": "SFile Search",
+          "desc": "Search SFile Mobi URLs",
+          "path": "/search/sfile?q="
+        }
+      ]
+    },
+    {
+      "name": "Stalker",
+      "items": [
+        {
+          "name": "NPM Stalk",
+          "desc": "Stalk NPM package",
+          "path": "/stalk/npm?q="
+        },
+        {
+          "name": "Instagram Stalk",
+          "desc": "Stalk Instagram account",
+          "path": "/stalk/instagram?user="
+        },
+        {
+          "name": "GitHub Stalk",
+          "desc": "Stalk GitHub account",
+          "path": "/stalk/github?user="
+        },
+        {
+          "name": "TikTok Stalk",
+          "desc": "Stalk TikTok account",
+          "path": "/stalk/tiktok?user="
+        },
+        {
+          "name": "YouTube Stalk",
+          "desc": "Stalk YouTube account",
+          "path": "/stalk/youtube?user="
+        }
+      ]
+    },
+    {
+      "name": "Image Creator",
+      "items": [
+        {
+          "name": "Remini",
+          "desc": "Remini image enhancer",
+          "path": "/imagecreator/remini?url="
+        },
+        {
+          "name": "Remove Background",
+          "desc": "Remove background from image",
+          "path": "/imagecreator/removebg?url="
+        },
+        {
+          "name": "Upscale",
+          "desc": "Upscale image",
+          "path": "/imagecreator/upscale?url="
+        },
+        {
+          "name": "Colorize",
+          "desc": "Colorize image",
+          "path": "/imagecreator/colorize?url="
+        }
+      ]
+    },
+    {
+      "name": "Xyz-King's",
+      "items": [
+        {
+          "name": "Status API",
+          "desc": "Check API status",
+          "path": "/api/status"
+        }
+      ]
+    }
+  ]
+}
